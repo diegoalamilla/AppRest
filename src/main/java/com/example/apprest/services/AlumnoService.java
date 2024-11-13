@@ -7,7 +7,11 @@ import java.util.ArrayList;
 
 @Service
 public class AlumnoService {
-    private List<Alumno> alumnos = new ArrayList<Alumno>();
+    private List<Alumno> alumnos;
+
+    public AlumnoService(){
+        alumnos = new ArrayList<>();
+    }
 
     public List<Alumno> getAlumnos() {
         return alumnos;

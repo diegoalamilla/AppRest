@@ -8,7 +8,11 @@ import java.util.List;
 
 @Service
 public class ProfesorService {
-    private List<Profesor> profesores = new ArrayList<>();
+    private List<Profesor> profesores;
+
+    public ProfesorService(){
+        profesores = new ArrayList<>();
+    }
 
     public List<Profesor> getProfesores() {
         return profesores;
