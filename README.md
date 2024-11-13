@@ -5,13 +5,13 @@
 1. Clona el repositorio:
 
     ```bash
-    git clone https://github.com/tu_usuario/tu_repositorio.git
+    git clone https://github.com/diegoalamilla/AppRest.git
     ```
 
 2. Navega al directorio del proyecto:
 
     ```bash
-    cd tu_repositorio
+    cd AppRest
     ```
 
 3. Compila el proyecto con Maven:
@@ -26,6 +26,13 @@
     mvn spring-boot:run
     ```
 
+5. Empaquetar la aplicación:
+
+    ```bash
+    mvn package
+    ```
+6. Ejecutar Jar
+   
 ### Usar con Docker
 
 Si tienes un Dockerfile configurado, puedes crear una imagen de Docker y correrla en un contenedor:
