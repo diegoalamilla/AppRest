@@ -18,9 +18,9 @@ public class ProfesorService {
         return profesores;
     }
 
-    public Profesor getProfesorById(int id) {
+    public Profesor getProfesorById(String id) {
         return profesores.stream()
-                .filter(profesor -> profesor.getId() == id)
+                .filter(profesor -> profesor.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
@@ -32,7 +32,7 @@ public class ProfesorService {
 
     public Profesor updateProfesor(Profesor profesor) {
         for (Profesor p : profesores) {
-            if (p.getId() == profesor.getId()) {
+            if (p.getId().equals(profesor.getId())) {
                 p.setNombres(profesor.getNombres());
                 p.setApellidos(profesor.getApellidos());
                 p.setNumeroEmpleado(profesor.getNumeroEmpleado());
@@ -42,7 +42,7 @@ public class ProfesorService {
         return profesor;
     }
 
-    public boolean deleteProfesor(int id) {
-        return profesores.removeIf(profesor -> profesor.getId() == id);
+    public boolean deleteProfesor(String id) {
+        return profesores.removeIf(profesor -> profesor.getId().equals(id));
     }
 }

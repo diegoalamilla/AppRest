@@ -1,0 +1,60 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+target/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Temporary files
+*.swp
+*.bak
+*.tmp
+*.old
+*.orig
+*.rej
+*.sublime-workspace
+
+# Test output
+*.test_results
+
+# AWS credentials and sensitive files
+.aws/
+*.pem
+*.key
+*.crt
+*.pfx
+
+# Docker
+*.env
+docker-compose.override.yml
