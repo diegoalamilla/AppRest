@@ -1,8 +1,9 @@
 package com.example.apprest.models;
 
+import java.util.UUID;
 
 public class Profesor {
-    private int id;
+    private String id;
     private int numeroEmpleado;
     private String nombres;
     private String apellidos;
@@ -12,18 +13,18 @@ public class Profesor {
     
     public Profesor() {
     }
-    public Profesor(int id, int numeroEmpleado, String nombres, String apellidos, int horasClase) {
-        this.id = id;
+    public Profesor(String id, int numeroEmpleado, String nombres, String apellidos, int horasClase) {
+        this.id = UUID.randomUUID().toString(); 
         this.numeroEmpleado = numeroEmpleado;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.horasClase = horasClase;
     }
-    public int getId() {
+    public String getId() {
         return id;
     }
-    public void setId(int id) {
-        if (id <= 0) {
+    public void setId(String id) {
+        if (id == null || id.isEmpty()) {
             throw new IllegalArgumentException("Id inválido");
         }
         this.id = id;

@@ -57,6 +57,7 @@ public class AlumnoController {
     @PutMapping("/{id}")
     public ResponseEntity<Alumno> updateAlumno(@PathVariable String id, @RequestBody Alumno alumno) {
         try {
+            alumno.setId(id);
            Alumno alumnoActualizado = alumnoService.updateAlumno(alumno);
             return ResponseEntity.ok(alumnoActualizado);
         } catch (Exception e) {

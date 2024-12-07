@@ -31,7 +31,7 @@ public class AlumnoService {
 
     public Alumno updateAlumno(Alumno alumno) {
         for (Alumno a : alumnos) {
-            if (a.getId() == alumno.getId()) {
+            if (a.getId().equals(alumno.getId())) {
                 a.setNombres(alumno.getNombres());
                 a.setApellidos(alumno.getApellidos());
                 a.setMatricula(alumno.getMatricula());
@@ -42,7 +42,7 @@ public class AlumnoService {
     }
 
     public boolean deleteAlumno(String id) {
-       return alumnos.removeIf(a -> a.getId() == id);
+       return alumnos.removeIf(a -> a.getId().equals(id));
     }
 
 }
