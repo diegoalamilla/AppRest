@@ -5,12 +5,11 @@ import java.io.IOException;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
-
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.apprest.config.AwsConfig;
@@ -26,13 +25,12 @@ public class S3Service {
     @Autowired
     private AwsConfig awsConfig;
 
-    @Autowired
-    private AmazonS3 s3Client;
 
-    
-    private void s3Client() {
+
+    @Bean
+    private AmazonS3 s3Client() {
         AWSCredentials awsCredentials = new BasicSessionCredentials(awsConfig.getAccessKeyId(), awsConfig.getSecretAccessKey(), awsConfig.getSessionToken());
-        s3Client = AmazonS3ClientBuilder.standard()
+        return AmazonS3ClientBuilder.standard()
                 .withRegion("us-east-1")
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .build();
@@ -40,7 +38,7 @@ public class S3Service {
     }
 
     public String uploadFile(MultipartFile file, String key) {
-        s3Client();
+        AmazonS3 s3Client = s3Client();
         try {
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType(file.getContentType());
