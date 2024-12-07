@@ -17,9 +17,9 @@ public class AlumnoService {
         return alumnos;
     }
 
-    public Alumno getAlumnoById(int id) {
+    public Alumno getAlumnoById(String id) {
         return alumnos.stream()
-                .filter(alumno -> alumno.getId() == id)
+                .filter(alumno -> alumno.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
@@ -41,7 +41,7 @@ public class AlumnoService {
         return alumno;
     }
 
-    public boolean deleteAlumno(int id) {
+    public boolean deleteAlumno(String id) {
        return alumnos.removeIf(a -> a.getId() == id);
     }
 

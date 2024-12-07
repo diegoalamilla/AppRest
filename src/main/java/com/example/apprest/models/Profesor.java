@@ -1,5 +1,6 @@
 package com.example.apprest.models;
 
+
 public class Profesor {
     private int id;
     private int numeroEmpleado;

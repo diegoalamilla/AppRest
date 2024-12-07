@@ -1,33 +1,42 @@
 package com.example.apprest.models;
 
+
+import java.util.UUID;
+
+
+
+
+
 public class Alumno {
-    private int id;
+    private String id;
     private String nombres;
     private String apellidos;
     private String matricula;
     private Double promedio;
+    private String fotoPerfilUrl;
+    private String password;
 
     
     public Alumno() {
 
     }
-    public Alumno(int id, String nombres, String apellidos, String matricula, Double promedio) {
-        this.id = id;
+    public Alumno(String nombres, String apellidos, String matricula, Double promedio) {
+        this.id = UUID.randomUUID().toString(); 
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.matricula = matricula;
         this.promedio = promedio;
     }
-    public int getId() {
-        
+    public String getId() {
         return id;
     }
-    public void setId(int id) {
-        if (id <= 0) {
+    public void setId(String id) {
+        if (id == null || id.isEmpty()) {
             throw new IllegalArgumentException("Id inválido");
         }
         this.id = id;
     }
+   
     public String getNombres() {
         return nombres;
     }
@@ -63,6 +72,22 @@ public class Alumno {
             throw new IllegalArgumentException("Promedio inválido");
         }
         this.promedio = promedio;
+    }
+
+    public String getFotoPerfilUrl() {
+        return fotoPerfilUrl;
+    }
+
+    public void setFotoPerfilUrl(String fotoPerfilUrl) {
+        this.fotoPerfilUrl = fotoPerfilUrl;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     

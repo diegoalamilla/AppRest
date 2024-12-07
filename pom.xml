@@ -6,14 +6,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/> 
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>apprest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>apprest</name>
-	<description>Demo project for Spring Boot</description>
-	<url/>
+	<description>Api Rest in springboot</description>
 	<licenses>
 		<license/>
 	</licenses>
@@ -40,6 +39,16 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.12.779</version>
+		</dependency>
+
+		
+
 	</dependencies>
 
 	<build>
@@ -49,6 +58,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<sourceDirectory>src/main/java</sourceDirectory>
 	</build>
 
 </project>
