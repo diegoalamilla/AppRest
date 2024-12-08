@@ -10,44 +10,46 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.apprest.models.Alumno;
-import com.example.apprest.services.AlumnoService;
+//import com.example.apprest.services.AlumnoService;
+import com.example.apprest.interfaces.AlumnoInterface;
 import com.example.apprest.services.S3Service;
 
 @RestController
 @RequestMapping("/alumnos")
 public class AlumnoController {
 
+  
+  //  @Autowired
+  //  private AlumnoService alumnoService;
+
     @Autowired
-    private AlumnoService alumnoService;
+    private AlumnoInterface alumnoInterface;
 
     @Autowired
     private S3Service s3Service;
 
     @GetMapping
     public ResponseEntity<List<Alumno>> getAlumnos() {
-        List<Alumno> alumnos = alumnoService.getAlumnos();
+        List<Alumno> alumnos = alumnoInterface.findAll();
         return ResponseEntity.ok(alumnos); 
     }
     @GetMapping("/{id}")
     public ResponseEntity<Alumno> getAlumnoById(@PathVariable String id) {
-        Alumno alumno = alumnoService.getAlumnoById(id);
-        System.out.println(alumno);
+        Alumno alumno = alumnoInterface.findById(id).orElse(null);
         if (alumno != null) {
             return ResponseEntity.ok(alumno);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-    
 
     @PostMapping
     public ResponseEntity<Alumno> addAlumno(@RequestBody Alumno alumno) {
         try {
         if (alumno.getId() == null || alumno.getId().isEmpty()) {
             alumno.setId(UUID.randomUUID().toString());
-            System.out.println(alumno.getId()); // Genera el ID si no está presente
         }
-            Alumno nuevoAlumno = alumnoService.addAlumno(alumno);
+            Alumno nuevoAlumno = alumnoInterface.saveAndFlush(alumno);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoAlumno); 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); 
@@ -58,7 +60,7 @@ public class AlumnoController {
     public ResponseEntity<Alumno> updateAlumno(@PathVariable String id, @RequestBody Alumno alumno) {
         try {
             alumno.setId(id);
-           Alumno alumnoActualizado = alumnoService.updateAlumno(alumno);
+           Alumno alumnoActualizado = alumnoInterface.saveAndFlush(alumno);
             return ResponseEntity.ok(alumnoActualizado);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(alumno); 
@@ -67,7 +69,8 @@ public class AlumnoController {
    
     @DeleteMapping("/{id}")
     public ResponseEntity<Alumno> deleteAlumno(@PathVariable String id) {
-        boolean isDeleted = alumnoService.deleteAlumno(id);
+        alumnoInterface.deleteById(id);
+        boolean isDeleted = alumnoInterface.existsById(id);
        if (isDeleted) {
            return ResponseEntity.ok(null);
        } else {
@@ -77,10 +80,11 @@ public class AlumnoController {
    
     @PostMapping("/{id}/fotoPerfil")
     public ResponseEntity<Alumno> uploadFotoPerfil(@PathVariable String id, @RequestParam("fotoPerfil") MultipartFile fotoPerfilUrl) {
-        Alumno alumno = alumnoService.getAlumnoById(id);
+        Alumno alumno = alumnoInterface.findById(id).orElse(null);
         if (alumno != null) {
             String fotoPerfilUrlS3 = s3Service.uploadFile(fotoPerfilUrl, alumno.getMatricula()+"fotodeperfil" );
             alumno.setFotoPerfilUrl(fotoPerfilUrlS3);
+            alumnoInterface.saveAndFlush(alumno);
             return ResponseEntity.ok(alumno);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

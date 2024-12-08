@@ -6,7 +6,7 @@ import com.example.apprest.models.Alumno;
 import java.util.ArrayList;
 
 @Service
-public class AlumnoService {
+public class AlumnoService  {
     private List<Alumno> alumnos;
 
     public AlumnoService(){
