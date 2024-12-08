@@ -3,11 +3,15 @@ package com.example.apprest.models;
 
 import java.util.UUID;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 
 
+@Entity 
 
 public class Alumno {
+    @Id
     private String id;
     private String nombres;
     private String apellidos;
