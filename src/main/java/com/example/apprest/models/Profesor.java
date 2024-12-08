@@ -2,12 +2,14 @@ package com.example.apprest.models;
 
 import java.util.UUID;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
 public class Profesor {
     @Id
-    private String id;
+    @GeneratedValue
+    private int id;
     private int numeroEmpleado;
     private String nombres;
     private String apellidos;
@@ -17,18 +19,17 @@ public class Profesor {
     
     public Profesor() {
     }
-    public Profesor(String id, int numeroEmpleado, String nombres, String apellidos, int horasClase) {
-        this.id = UUID.randomUUID().toString(); 
+    public Profesor( int numeroEmpleado, String nombres, String apellidos, int horasClase) {
         this.numeroEmpleado = numeroEmpleado;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.horasClase = horasClase;
     }
-    public String getId() {
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
-        if (id == null || id.isEmpty()) {
+    public void setId(int id) {
+        if (id<=0) {
             throw new IllegalArgumentException("Id inválido");
         }
         this.id = id;

@@ -14,6 +14,7 @@ public class AwsConfig {
     private String sessionToken;
     private String region;
     private String bucketName;
+    private String topicArn;
     
     public String getAccessKeyId() {
         return accessKeyId;
@@ -44,6 +45,14 @@ public class AwsConfig {
     }
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;
+    }
+
+    public String getTopicArn() {
+        return topicArn;
+    }
+
+    public void setTopicArn(String topicArn) {
+        this.topicArn = topicArn;
     }
 
     

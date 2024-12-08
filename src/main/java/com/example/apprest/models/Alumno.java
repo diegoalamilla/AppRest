@@ -1,9 +1,14 @@
 package com.example.apprest.models;
 
 
-import java.util.UUID;
+
+
+import com.password4j.Password;
+
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+
 import jakarta.persistence.Id;
 
 
@@ -12,7 +17,8 @@ import jakarta.persistence.Id;
 
 public class Alumno {
     @Id
-    private String id;
+    @GeneratedValue
+    private int id;
     private String nombres;
     private String apellidos;
     private String matricula;
@@ -25,17 +31,16 @@ public class Alumno {
 
     }
     public Alumno(String nombres, String apellidos, String matricula, Double promedio) {
-        this.id = UUID.randomUUID().toString(); 
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.matricula = matricula;
         this.promedio = promedio;
     }
-    public String getId() {
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
-        if (id == null || id.isEmpty()) {
+    public void setId(int id) {
+        if (id <= 0) {
             throw new IllegalArgumentException("Id inválido");
         }
         this.id = id;
@@ -91,7 +96,8 @@ public class Alumno {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        String hashedPassoword = Password.hash(password).withArgon2().getResult();
+        this.password = hashedPassoword;
     }
 
     

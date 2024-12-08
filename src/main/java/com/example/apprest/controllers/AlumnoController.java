@@ -13,6 +13,7 @@ import com.example.apprest.models.Alumno;
 //import com.example.apprest.services.AlumnoService;
 import com.example.apprest.interfaces.AlumnoInterface;
 import com.example.apprest.services.S3Service;
+import com.example.apprest.services.SNSService;
 
 @RestController
 @RequestMapping("/alumnos")
@@ -28,14 +29,17 @@ public class AlumnoController {
     @Autowired
     private S3Service s3Service;
 
+    @Autowired
+    private SNSService snsService;
+
     @GetMapping
     public ResponseEntity<List<Alumno>> getAlumnos() {
         List<Alumno> alumnos = alumnoInterface.findAll();
         return ResponseEntity.ok(alumnos); 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Alumno> getAlumnoById(@PathVariable String id) {
-        Alumno alumno = alumnoInterface.findById(id).orElse(null);
+    public ResponseEntity<Alumno> getAlumnoById(@PathVariable int id) {
+        Alumno alumno = alumnoInterface.findById(String.valueOf(id)).orElse(null);
         if (alumno != null) {
             return ResponseEntity.ok(alumno);
         } else {
@@ -46,9 +50,7 @@ public class AlumnoController {
     @PostMapping
     public ResponseEntity<Alumno> addAlumno(@RequestBody Alumno alumno) {
         try {
-        if (alumno.getId() == null || alumno.getId().isEmpty()) {
-            alumno.setId(UUID.randomUUID().toString());
-        }
+        
             Alumno nuevoAlumno = alumnoInterface.saveAndFlush(alumno);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoAlumno); 
         } catch (Exception e) {
@@ -57,7 +59,7 @@ public class AlumnoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Alumno> updateAlumno(@PathVariable String id, @RequestBody Alumno alumno) {
+    public ResponseEntity<Alumno> updateAlumno(@PathVariable int id, @RequestBody Alumno alumno) {
         try {
             alumno.setId(id);
            Alumno alumnoActualizado = alumnoInterface.saveAndFlush(alumno);
@@ -68,10 +70,10 @@ public class AlumnoController {
     }
    
     @DeleteMapping("/{id}")
-    public ResponseEntity<Alumno> deleteAlumno(@PathVariable String id) {
-        alumnoInterface.deleteById(id);
-        boolean isDeleted = alumnoInterface.existsById(id);
-       if (isDeleted) {
+    public ResponseEntity<Alumno> deleteAlumno(@PathVariable int id) {
+        alumnoInterface.deleteById(String.valueOf(id));
+        boolean isDeleted = alumnoInterface.existsById(String.valueOf(id));
+       if (!isDeleted) {
            return ResponseEntity.ok(null);
        } else {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -79,8 +81,8 @@ public class AlumnoController {
     }
    
     @PostMapping("/{id}/fotoPerfil")
-    public ResponseEntity<Alumno> uploadFotoPerfil(@PathVariable String id, @RequestParam("fotoPerfil") MultipartFile fotoPerfilUrl) {
-        Alumno alumno = alumnoInterface.findById(id).orElse(null);
+    public ResponseEntity<Alumno> uploadFotoPerfil(@PathVariable int id, @RequestParam("fotoPerfil") MultipartFile fotoPerfilUrl) {
+        Alumno alumno = alumnoInterface.findById(String.valueOf(id)).orElse(null);
         if (alumno != null) {
             String fotoPerfilUrlS3 = s3Service.uploadFile(fotoPerfilUrl, alumno.getMatricula()+"fotodeperfil" );
             alumno.setFotoPerfilUrl(fotoPerfilUrlS3);
@@ -89,5 +91,21 @@ public class AlumnoController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+    @PostMapping("/{id}/email")
+    public ResponseEntity<Alumno> sendEmail(@PathVariable int id) {
+        Alumno alumno = alumnoInterface.findById(String.valueOf(id)).orElse(null);
+        if (alumno != null) {
+            boolean emailSent = snsService.sendEmail("La calificación de " + alumno.getNombres() + " " + alumno.getApellidos() + " es "+ alumno.getPromedio(), "Calificación de Alumno");
+            if (emailSent) {
+                return ResponseEntity.ok(alumno);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
     }
 }
