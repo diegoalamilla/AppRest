@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.apprest.interfaces.ProfesorInterface;
 import com.example.apprest.models.Profesor;
-import com.example.apprest.services.ProfesorService;
+//import com.example.apprest.services.ProfesorService;
 
 @RestController
 @RequestMapping("/profesores")
@@ -67,7 +67,7 @@ public class ProfesorController {
     public ResponseEntity<Profesor> deleteProfesor(@PathVariable String id) {
         profesorInterface.deleteById(id);
         boolean isDeleted = profesorInterface.existsById(id);
-        if (isDeleted) {
+        if (!isDeleted) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 

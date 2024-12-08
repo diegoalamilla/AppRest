@@ -3,6 +3,8 @@ package com.example.apprest.models;
 
 import java.util.UUID;
 
+import com.password4j.Password;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -91,7 +93,8 @@ public class Alumno {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        String hashedPassoword = Password.hash(password).withArgon2().getResult();
+        this.password = hashedPassoword;
     }
 
     

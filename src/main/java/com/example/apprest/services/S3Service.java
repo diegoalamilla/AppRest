@@ -24,9 +24,7 @@ public class S3Service {
 
     @Autowired
     private AwsConfig awsConfig;
-
-
-
+    
     @Bean
     private AmazonS3 s3Client() {
         AWSCredentials awsCredentials = new BasicSessionCredentials(awsConfig.getAccessKeyId(), awsConfig.getSecretAccessKey(), awsConfig.getSessionToken());

@@ -13,6 +13,7 @@ import com.example.apprest.models.Alumno;
 //import com.example.apprest.services.AlumnoService;
 import com.example.apprest.interfaces.AlumnoInterface;
 import com.example.apprest.services.S3Service;
+import com.example.apprest.services.SNSService;
 
 @RestController
 @RequestMapping("/alumnos")
@@ -27,6 +28,9 @@ public class AlumnoController {
 
     @Autowired
     private S3Service s3Service;
+
+    @Autowired
+    private SNSService snsService;
 
     @GetMapping
     public ResponseEntity<List<Alumno>> getAlumnos() {
@@ -71,7 +75,7 @@ public class AlumnoController {
     public ResponseEntity<Alumno> deleteAlumno(@PathVariable String id) {
         alumnoInterface.deleteById(id);
         boolean isDeleted = alumnoInterface.existsById(id);
-       if (isDeleted) {
+       if (!isDeleted) {
            return ResponseEntity.ok(null);
        } else {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -89,5 +93,21 @@ public class AlumnoController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+    @PostMapping("/{id}/email")
+    public ResponseEntity<Alumno> sendEmail(@PathVariable String id) {
+        Alumno alumno = alumnoInterface.findById(id).orElse(null);
+        if (alumno != null) {
+            boolean emailSent = snsService.sendEmail("La calificación de " + alumno.getNombres() + " " + alumno.getApellidos() + " es "+ alumno.getPromedio(), "Calificación de Alumno");
+            if (emailSent) {
+                return ResponseEntity.ok(alumno);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
     }
 }
