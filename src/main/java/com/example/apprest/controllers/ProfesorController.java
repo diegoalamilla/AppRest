@@ -2,7 +2,6 @@ package com.example.apprest.controllers;
 
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,14 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.apprest.interfaces.ProfesorInterface;
 import com.example.apprest.models.Profesor;
-//import com.example.apprest.services.ProfesorService;
 
 @RestController
 @RequestMapping("/profesores")
 public class ProfesorController {
 
-    //@Autowired
-   // private ProfesorService profesorService;
+
 
     @Autowired
     private ProfesorInterface profesorInterface;

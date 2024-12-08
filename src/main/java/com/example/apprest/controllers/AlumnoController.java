@@ -1,7 +1,6 @@
 package com.example.apprest.controllers;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.apprest.models.Alumno;
-//import com.example.apprest.services.AlumnoService;
 import com.example.apprest.interfaces.AlumnoInterface;
 import com.example.apprest.services.S3Service;
 import com.example.apprest.services.SNSService;
@@ -19,9 +17,6 @@ import com.example.apprest.services.SNSService;
 @RequestMapping("/alumnos")
 public class AlumnoController {
 
-  
-  //  @Autowired
-  //  private AlumnoService alumnoService;
 
     @Autowired
     private AlumnoInterface alumnoInterface;

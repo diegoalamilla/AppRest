@@ -1,6 +1,5 @@
 package com.example.apprest.models;
 
-import java.util.UUID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
