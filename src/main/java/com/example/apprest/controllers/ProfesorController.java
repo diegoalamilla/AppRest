@@ -30,8 +30,8 @@ public class ProfesorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Profesor> getProfesorById(@PathVariable String id) {
-        Profesor profesor = profesorInterface.findById(id).orElse(null);
+    public ResponseEntity<Profesor> getProfesorById(@PathVariable int id) {
+        Profesor profesor = profesorInterface.findById(String.valueOf(id)).orElse(null);
         if (profesor != null) {
             return ResponseEntity.ok(profesor);
         } else {
@@ -42,9 +42,6 @@ public class ProfesorController {
     @PostMapping
     public ResponseEntity<Profesor> addProfesor(@RequestBody Profesor profesor) {
         try {
-             if (profesor.getId() == null || profesor.getId().isEmpty()) {
-            profesor.setId(UUID.randomUUID().toString());
-        }
             Profesor nuevoProfesor = profesorInterface.saveAndFlush(profesor);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProfesor);
         } catch (Exception e) {
@@ -53,7 +50,7 @@ public class ProfesorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Profesor> updateProfesor(@PathVariable String id, @RequestBody Profesor profesor) {
+    public ResponseEntity<Profesor> updateProfesor(@PathVariable int id, @RequestBody Profesor profesor) {
         try {
             profesor.setId(id);
            Profesor profesorActualizado = profesorInterface.saveAndFlush(profesor);
@@ -64,9 +61,9 @@ public class ProfesorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Profesor> deleteProfesor(@PathVariable String id) {
-        profesorInterface.deleteById(id);
-        boolean isDeleted = profesorInterface.existsById(id);
+    public ResponseEntity<Profesor> deleteProfesor(@PathVariable int id) {
+        profesorInterface.deleteById(String.valueOf(id));
+        boolean isDeleted = profesorInterface.existsById(String.valueOf(id));
         if (!isDeleted) {
             return ResponseEntity.ok().build();
         } else {
