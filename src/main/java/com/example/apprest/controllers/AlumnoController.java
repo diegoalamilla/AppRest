@@ -1,14 +1,14 @@
 package com.example.apprest.controllers;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import com.password4j.Password;
 
-
-
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +58,6 @@ public class AlumnoController {
     @PostMapping
     public ResponseEntity<Alumno> addAlumno(@RequestBody Alumno alumno) {
         try {
-        
             Alumno nuevoAlumno = alumnoInterface.saveAndFlush(alumno);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoAlumno); 
         } catch (Exception e) {
@@ -79,17 +78,18 @@ public class AlumnoController {
    
     @DeleteMapping("/{id}")
     public ResponseEntity<Alumno> deleteAlumno(@PathVariable int id) {
+        boolean exists = alumnoInterface.existsById(id);
+        if (!exists) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
         alumnoInterface.deleteById(id);
-        boolean isDeleted = alumnoInterface.existsById(id);
-       if (!isDeleted) {
-           return ResponseEntity.ok(null);
-       } else {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-       }
+        alumnoInterface.flush();
+        return ResponseEntity.ok(null);
+      
     }
    
     @PostMapping("/{id}/fotoPerfil")
-    public ResponseEntity<Alumno> uploadFotoPerfil(@PathVariable int id, @RequestParam("fotoPerfil") MultipartFile fotoPerfilUrl) {
+    public ResponseEntity<Alumno> uploadFotoPerfil(@PathVariable int id, @RequestParam("foto") MultipartFile fotoPerfilUrl) {
         Alumno alumno = alumnoInterface.findById(id).orElse(null);
         if (alumno != null) {
             String fotoPerfilUrlS3 = s3Service.uploadFile(fotoPerfilUrl, alumno.getMatricula()+"fotodeperfil" );
@@ -97,7 +97,7 @@ public class AlumnoController {
             alumnoInterface.saveAndFlush(alumno);
             return ResponseEntity.ok(alumno);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(alumno);
         }
     }
 
@@ -126,22 +126,19 @@ public class AlumnoController {
         String password = passwordJSON.get("password");
             boolean isValidPassword = Password.check(password, alumnoDB.getPassword()).withArgon2();
             if (!isValidPassword) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
-
             SesionesAlumnos sessionData = new SesionesAlumnos();
             sessionData.setId(UUID.randomUUID().toString());
             sessionData.setFecha(System.currentTimeMillis());
             sessionData.setAlumnoId(id);
             sessionData.setActive(true);
-            sessionData.setSessionString(UUID.randomUUID().toString());
-
-
+            sessionData.setSessionString(RandomStringUtils.randomAlphanumeric(128));          
             boolean response = dynamoService.loginSession(sessionData);
             if(response){
                 return ResponseEntity.ok(sessionData);
             }else{
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(sessionData);
             }
 
     
@@ -149,35 +146,42 @@ public class AlumnoController {
 
 
 
-    @PostMapping("/{id}/session/verify")
-        public ResponseEntity<Alumno> verifySession(@PathVariable int id, @RequestBody Map<String, String> session){
+    @PostMapping("/{id}/session/verify") 
+        public ResponseEntity<?> verifySession(@PathVariable int id, @RequestBody Map<String, String> session){
             Alumno alumnoDB = alumnoInterface.findById(id).orElse(null);
             if (alumnoDB == null) {
                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+            }
         String sessionString = session.get("sessionString");
+       if (sessionString == null || sessionString.isEmpty()) {
+             Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("status", 400);
+                errorResponse.put("error", "Bad Request");
+                errorResponse.put("message", "sessionString no es válido");
+                errorResponse.put("path", "/alumnos/"+id+"/session/verify");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
     
         boolean response = dynamoService.verifySession(sessionString);
-        if(response){
-            return ResponseEntity.ok(alumnoDB);
+        SesionesAlumnos sessionData = dynamoService.getSession(sessionString);
+        if (response) {
+            return ResponseEntity.ok(sessionData);
         }else{
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sessionData);
         }
     
     }
 
     @PostMapping("/{id}/session/logout")
-    public ResponseEntity<Alumno> logout(@PathVariable int id, @RequestBody Map<String, String> session){
+    public ResponseEntity<SesionesAlumnos> logout(@PathVariable int id, @RequestBody Map<String, String> session){
         Alumno alumnoDB = alumnoInterface.findById(id).orElse(null);
         if (alumnoDB == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-
         String sessionString = session.get("sessionString");
-
-
         dynamoService.logoutSession(sessionString);
-        return ResponseEntity.ok(alumnoDB);
+        SesionesAlumnos sessionData = dynamoService.getSession(sessionString);
+        return ResponseEntity.ok(sessionData);
     }
 
 }

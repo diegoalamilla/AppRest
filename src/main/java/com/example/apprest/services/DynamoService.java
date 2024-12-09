@@ -33,14 +33,11 @@ public class DynamoService {
     @Bean
     public AmazonDynamoDB dynamoClient(){
 
-         AWSCredentials awsCredentials = new BasicSessionCredentials(awsConfig.getAccessKeyId(), awsConfig.getSecretAccessKey(), awsConfig.getSessionToken());
-        
+        AWSCredentials awsCredentials = new BasicSessionCredentials(awsConfig.getAccessKeyId(), awsConfig.getSecretAccessKey(), awsConfig.getSessionToken());
         return AmazonDynamoDBClientBuilder.standard().
         withRegion("us-east-1").
         withCredentials(new AWSStaticCredentialsProvider(awsCredentials)).
         build();
-
-
 
     }
 
@@ -48,7 +45,6 @@ public class DynamoService {
 
     public boolean loginSession(SesionesAlumnos sessionData){
         AmazonDynamoDB dynamoDbClient = dynamoClient();
-
         try{
         DynamoDBMapper mapper = new DynamoDBMapper(dynamoDbClient);
         mapper.save(sessionData);

@@ -59,13 +59,13 @@ public class ProfesorController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Profesor> deleteProfesor(@PathVariable int id) {
-        profesorInterface.deleteById(id);
-        boolean isDeleted = profesorInterface.existsById(id);
-        if (!isDeleted) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
-        }
+       boolean exists = profesorInterface.existsById(id);
+       if (!exists) {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+       }
+         profesorInterface.deleteById(id);
+         profesorInterface.flush();
+        return ResponseEntity.ok(null);
     }
     
     
