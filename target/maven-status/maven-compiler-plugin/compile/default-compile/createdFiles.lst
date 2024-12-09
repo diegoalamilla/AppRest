@@ -1,6 +1,4 @@
-com\example\apprest\services\ProfesorService.class
 com\example\apprest\config\AwsConfig.class
-com\example\apprest\services\AlumnoService.class
 com\example\apprest\controllers\TestController.class
 com\example\apprest\ApprestApplication.class
 com\example\apprest\models\Alumno.class

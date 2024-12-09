@@ -28,7 +28,7 @@ public class ProfesorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Profesor> getProfesorById(@PathVariable int id) {
-        Profesor profesor = profesorInterface.findById(String.valueOf(id)).orElse(null);
+        Profesor profesor = profesorInterface.findById(id).orElse(null);
         if (profesor != null) {
             return ResponseEntity.ok(profesor);
         } else {
@@ -59,8 +59,8 @@ public class ProfesorController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Profesor> deleteProfesor(@PathVariable int id) {
-        profesorInterface.deleteById(String.valueOf(id));
-        boolean isDeleted = profesorInterface.existsById(String.valueOf(id));
+        profesorInterface.deleteById(id);
+        boolean isDeleted = profesorInterface.existsById(id);
         if (!isDeleted) {
             return ResponseEntity.ok().build();
         } else {

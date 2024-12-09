@@ -5,6 +5,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 
+
+
 @Configuration
 @ConfigurationProperties(prefix = "aws")
 public class AwsConfig {
@@ -15,6 +17,7 @@ public class AwsConfig {
     private String region;
     private String bucketName;
     private String topicArn;
+    private String tableArn;
     
     public String getAccessKeyId() {
         return accessKeyId;
@@ -54,6 +57,13 @@ public class AwsConfig {
     public void setTopicArn(String topicArn) {
         this.topicArn = topicArn;
     }
+    public String getTableArn() {
+        return tableArn;
+    }
+    public void setTableArn(String tableArn) {
+        this.tableArn = tableArn;
+    }
+    
 
     
     

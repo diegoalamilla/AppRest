@@ -41,7 +41,6 @@ public class SNSService {
     public boolean sendEmail(String message, String subject) {
         SnsClient snsClient = snsClient();
         String topicArn = awsConfig.getTopicArn();
-        System.out.println(topicArn);
         try {
 
             PublishRequest request = PublishRequest.builder()
@@ -51,22 +50,13 @@ public class SNSService {
             .build();
 
             PublishResponse response = snsClient.publish(request);
-            if (response.sdkHttpResponse().isSuccessful()) {
-                System.out.println("Email sent");
-            } else {
-                System.out.println("Email not sent");
-            }
-
-            
-            
+          
             return response.sdkHttpResponse().isSuccessful();
            
         } catch (SnsException e) {
-            System.err.println("Error while sending email: " + e.awsErrorDetails().errorMessage());
-            e.printStackTrace();
+           return false;
         }
         
-        return false;
     }
 
     
