@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import com.password4j.Password;
 
-import ch.qos.logback.core.subst.Token;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.apprest.models.Alumno;
 import com.example.apprest.models.SesionesAlumnos;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+
 import com.example.apprest.interfaces.AlumnoInterface;
 import com.example.apprest.services.DynamoService;
 import com.example.apprest.services.S3Service;
