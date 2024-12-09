@@ -3,11 +3,11 @@ C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\
 C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\controllers\AlumnoController.java
 C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\controllers\ProfesorController.java
 C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\controllers\TestController.java
-C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\interfaces\AlumnoInterface.java
-C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\interfaces\ProfesorInterface.java
 C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\models\Alumno.java
 C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\models\Profesor.java
 C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\models\SesionesAlumnos.java
+C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\repositories\AlumnoRepository.java
+C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\repositories\ProfesorRepository.java
 C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\services\DynamoService.java
 C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\services\S3Service.java
 C:\Users\diego\OneDrive\Documentos\7mo Semestre\AWS\Tareas\appRest\Rest\AppRest\src\main\java\com\example\apprest\services\SNSService.java

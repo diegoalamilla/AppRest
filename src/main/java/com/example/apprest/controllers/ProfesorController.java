@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.apprest.interfaces.ProfesorInterface;
 import com.example.apprest.models.Profesor;
+import com.example.apprest.repositories.ProfesorRepository;
 
 @RestController
 @RequestMapping("/profesores")
@@ -18,17 +18,17 @@ public class ProfesorController {
 
 
     @Autowired
-    private ProfesorInterface profesorInterface;
+    private ProfesorRepository profesorRepository;
 
     @GetMapping
     public ResponseEntity<List<Profesor>> getProfesores() {
-        List<Profesor> profesores = profesorInterface.findAll();
+        List<Profesor> profesores = profesorRepository.findAll();
         return ResponseEntity.ok(profesores);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Profesor> getProfesorById(@PathVariable int id) {
-        Profesor profesor = profesorInterface.findById(id).orElse(null);
+        Profesor profesor = profesorRepository.findById(id).orElse(null);
         if (profesor != null) {
             return ResponseEntity.ok(profesor);
         } else {
@@ -39,7 +39,7 @@ public class ProfesorController {
     @PostMapping
     public ResponseEntity<Profesor> addProfesor(@RequestBody Profesor profesor) {
         try {
-            Profesor nuevoProfesor = profesorInterface.saveAndFlush(profesor);
+            Profesor nuevoProfesor = profesorRepository.saveAndFlush(profesor);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProfesor);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); 
@@ -50,7 +50,7 @@ public class ProfesorController {
     public ResponseEntity<Profesor> updateProfesor(@PathVariable int id, @RequestBody Profesor profesor) {
         try {
             profesor.setId(id);
-           Profesor profesorActualizado = profesorInterface.saveAndFlush(profesor);
+           Profesor profesorActualizado = profesorRepository.saveAndFlush(profesor);
             return ResponseEntity.ok(profesorActualizado);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -59,12 +59,12 @@ public class ProfesorController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Profesor> deleteProfesor(@PathVariable int id) {
-       boolean exists = profesorInterface.existsById(id);
+       boolean exists = profesorRepository.existsById(id);
        if (!exists) {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
        }
-         profesorInterface.deleteById(id);
-         profesorInterface.flush();
+         profesorRepository.deleteById(id);
+         profesorRepository.flush();
         return ResponseEntity.ok(null);
     }
     

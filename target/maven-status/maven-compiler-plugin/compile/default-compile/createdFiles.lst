@@ -6,4 +6,3 @@ com\example\apprest\controllers\AlumnoController.class
 com\example\apprest\services\S3Service.class
 com\example\apprest\models\Profesor.class
 com\example\apprest\controllers\ProfesorController.class
-com\example\apprest\interfaces\AlumnoInterface.class
