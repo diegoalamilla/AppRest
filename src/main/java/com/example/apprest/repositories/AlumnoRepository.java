@@ -1,11 +1,11 @@
-package com.example.apprest.interfaces;
+package com.example.apprest.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
 import com.example.apprest.models.Alumno;
 
-public interface AlumnoInterface extends JpaRepository<Alumno, String> {
+public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
 
     
     

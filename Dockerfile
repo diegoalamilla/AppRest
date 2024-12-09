@@ -6,6 +6,8 @@ COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
 COPY src ./src
+COPY .env /app/.env
+
 
 RUN mvn clean package -DskipTests
 FROM openjdk:21-jdk-slim
