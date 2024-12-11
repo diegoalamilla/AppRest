@@ -56,6 +56,10 @@ Si tienes un Dockerfile configurado, puedes crear una imagen de Docker y correrl
 - **POST /alumnos** - Crea un nuevo alumno
 - **PUT /alumnos/{id}** - Actualiza un alumno existente
 - **DELETE /alumnos/{id}** - Elimina un alumno por ID
+- **POST /alumnos/{id}/fotoPerfil** - Sube foto de perfil del alumno a un S3
+- **POST /alumnos/{id}/session/login** - Inicia sesión y se guarda la sesión en una tabla en DynamoDB
+- **POST /alumnos/{id}/session/verify** - Verfiica que la sesión del alumnio esté activa
+- **POST /alumnos/{id}/session/logout** - Cierra la sesión del alumno
 
 ### Profesores
 
@@ -63,3 +67,20 @@ Si tienes un Dockerfile configurado, puedes crear una imagen de Docker y correrl
 - **POST /profesores** - Crea un nuevo profesor
 - **PUT /profesores/{id}** - Actualiza un profesor existente
 - **DELETE /profesores/{id}** - Elimina un profesor por ID
+
+## Variables de entorno en application.properties
+###aws credentials
+aws.accessKeyId=${AWS_ACCESS_KEY_ID}
+aws.secretAccessKey=${AWS_SECRET_ACCESS_KEY}
+aws.sessionToken=${AWS_SESSION_TOKEN}
+###aws s3 bucket
+aws.region=${AWS_REGION}
+aws.bucketName=${AWS_S3_BUCKET_NAME}
+
+###aws sns
+aws.topicArn=${AWS_SNS_ARN_TOPIC}
+
+###Database
+spring.datasource.url=jdbc:mysql://${AWS_RDS_HOSTNAME}:${AWS_RDS_PORT}/${AWS_RDS_DB_NAME}
+spring.datasource.username=${AWS_RDS_USERNAME}
+spring.datasource.password=${AWS_RDS_PASSWORD}
