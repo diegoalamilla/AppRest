@@ -75,7 +75,7 @@ Si tienes un Dockerfile configurado, puedes crear una imagen de Docker y correrl
 - aws.accessKeyId=${AWS_ACCESS_KEY_ID}
 - aws.secretAccessKey=${AWS_SECRET_ACCESS_KEY}
 - aws.sessionToken=${AWS_SESSION_TOKEN}
-- 
+
 ### AWS s3 bucket
 
 - aws.region=${AWS_REGION}
