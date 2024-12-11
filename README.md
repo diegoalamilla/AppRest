@@ -69,18 +69,23 @@ Si tienes un Dockerfile configurado, puedes crear una imagen de Docker y correrl
 - **DELETE /profesores/{id}** - Elimina un profesor por ID
 
 ## Variables de entorno en application.properties
-###aws credentials
-aws.accessKeyId=${AWS_ACCESS_KEY_ID}
-aws.secretAccessKey=${AWS_SECRET_ACCESS_KEY}
-aws.sessionToken=${AWS_SESSION_TOKEN}
-###aws s3 bucket
-aws.region=${AWS_REGION}
-aws.bucketName=${AWS_S3_BUCKET_NAME}
 
-###aws sns
-aws.topicArn=${AWS_SNS_ARN_TOPIC}
+### AWS credentials
 
-###Database
-spring.datasource.url=jdbc:mysql://${AWS_RDS_HOSTNAME}:${AWS_RDS_PORT}/${AWS_RDS_DB_NAME}
-spring.datasource.username=${AWS_RDS_USERNAME}
-spring.datasource.password=${AWS_RDS_PASSWORD}
+- aws.accessKeyId=${AWS_ACCESS_KEY_ID}
+- aws.secretAccessKey=${AWS_SECRET_ACCESS_KEY}
+- aws.sessionToken=${AWS_SESSION_TOKEN}
+- 
+### AWS s3 bucket
+
+- aws.region=${AWS_REGION}
+- aws.bucketName=${AWS_S3_BUCKET_NAME}
+
+### AWS sns
+
+- aws.topicArn=${AWS_SNS_ARN_TOPIC}
+
+### Database
+- spring.datasource.url=jdbc:mysql://${AWS_RDS_HOSTNAME}:${AWS_RDS_PORT}/${AWS_RDS_DB_NAME}
+- spring.datasource.username=${AWS_RDS_USERNAME}
+- spring.datasource.password=${AWS_RDS_PASSWORD}
